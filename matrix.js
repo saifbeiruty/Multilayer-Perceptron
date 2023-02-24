@@ -15,7 +15,8 @@ class Matrix {
     randomize () {
         for (let r = 0; r < this.row; r++) {
             for(let c = 0; c < this.column; c++) {
-                this.data[r][c] = Math.floor(Math.random() * 10)
+                // Numbers between -1 and 1
+                this.data[r][c] = Math.random() * 2 - 1;
             }
         }
     }
@@ -28,6 +29,25 @@ class Matrix {
             }
         }
         return transposedMatrix;
+    }
+    
+    // Changes the input given to the feedForward algorithm to a Matrix;
+    static fromArray (arr) {
+        let m = new Matrix (arr.length, 1);
+        for (let r = 0; r < arr.length; r++) {
+            m.data[r][0] = arr[r];
+        }
+        return m;
+    }
+
+    toArray() {
+        let arr = [];
+        for (let r = 0; r < this.row; r++) {
+            for (let c = 0; c < this.column; c++) {
+                arr.push(this.data[r][c]);
+            }
+        }
+        return arr;
     }
 
     static multiply (m1, m2) {
@@ -90,9 +110,12 @@ const double = (num) => {
     return num * 2;
 }
 
-let m1 = new Matrix(2,3)
-m1.randomize()
-console.table(m1.data)
+let arr = [2,4,2]
+console.table(Matrix.fromArray(arr).data)
 
-m1.map(double)
-console.table(m1.data)
+// let m1 = new Matrix(2,3)
+// m1.randomize()
+// console.table(m1.data)
+
+// m1.map(double)
+// console.table(m1.data)

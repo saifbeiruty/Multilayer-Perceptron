@@ -1,3 +1,5 @@
+let Matrix = require('./matrix.js')
+
 const sigmoid = (x) => {
     return 1 / (1 + Math.exp(-x));
 }
@@ -44,4 +46,28 @@ class NeuralNetwork {
         return output.toArray();
     }
 
+    train (inputs, targets) {
+        // We are assuming only 1 hidden layer
+
+        // Before tweaking the weights, what is the expected output
+        let outputs = this.feedForward(inputs);
+        // Convert the array back to a matrix (feedForward returns an array)
+        outputs = Matrix.fromArray(outputs);
+        targets = Matrix.fromArray(targets);
+        // Calculating the error (Targets - Outputs)
+        let outputErrors = Matrix.substract(targets, outputs);
+
+        // console.table(outputs.data);
+        // console.table(targets.data);
+        // console.table(error.data);
+
+        // Since we are going back we have to transpose. Check math it will make sense
+        let weightsHiddenOutputTransposed = Matrix.transpose(this.weightsHiddenOutput);
+
+        let hiddenErrors = Matrix.multiply(weightsHiddenOutputTransposed, outputErrors);
+
+    }
 }
+
+module.exports = NeuralNetwork;
+

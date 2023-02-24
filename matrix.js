@@ -21,11 +21,11 @@ class Matrix {
         }
     }
 
-    transpose () {
+    static transpose (matrix) {
         let transposedMatrix = new Matrix (this.column, this.row);
-        for (let r = 0; r < this.row; r++) {
-            for(let c = 0; c < this.column; c++) {
-                transposedMatrix.data[c][r] = this.data[r][c];
+        for (let r = 0; r < matrix.row; r++) {
+            for(let c = 0; c < matrix.column; c++) {
+                transposedMatrix.data[c][r] = matrix.data[r][c];
             }
         }
         return transposedMatrix;
@@ -48,6 +48,17 @@ class Matrix {
             }
         }
         return arr;
+    }
+
+    static substract (a, b) {
+        // Assuming a and b are always the same size
+        let result = new Matrix(a.row, a.column);
+        for (let r = 0; r < result.row; r++) {
+            for (let c = 0; c < result.column; c++) {
+                result.data[r][c] = a.data[r][c] - b.data[r][c];
+            }
+        }
+        return result;
     }
 
     static multiply (m1, m2) {
@@ -106,16 +117,4 @@ class Matrix {
     }
 }
 
-const double = (num) => {
-    return num * 2;
-}
-
-let arr = [2,4,2]
-console.table(Matrix.fromArray(arr).data)
-
-// let m1 = new Matrix(2,3)
-// m1.randomize()
-// console.table(m1.data)
-
-// m1.map(double)
-// console.table(m1.data)
+module.exports = Matrix;

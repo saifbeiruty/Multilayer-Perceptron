@@ -22,7 +22,7 @@ class Matrix {
     }
 
     static transpose (matrix) {
-        let transposedMatrix = new Matrix (this.column, this.row);
+        let transposedMatrix = new Matrix (matrix.column, matrix.row);
         for (let r = 0; r < matrix.row; r++) {
             for(let c = 0; c < matrix.column; c++) {
                 transposedMatrix.data[c][r] = matrix.data[r][c];
@@ -83,10 +83,18 @@ class Matrix {
     }
 
     multiply (n) {
+        if(n instanceof Matrix) {
+            for (let r = 0; r < this.row; r++) {
+                for(let c = 0; c < this.column; c++) {
+                    this.data[r][c] *= n.data[r][c];
+                }
+            }
+        } else {
         // Scalar Multiplication
-        for (let r = 0; r < this.row; r++) {
-            for(let c = 0; c < this.column; c++) {
-                this.data[r][c] *= n;
+            for (let r = 0; r < this.row; r++) {
+                for(let c = 0; c < this.column; c++) {
+                    this.data[r][c] *= n;
+                }
             }
         }
     }
@@ -105,6 +113,17 @@ class Matrix {
                 }
             }
         }
+    }
+
+    static map (matrix, func) {
+        let result = new Matrix(matrix.row, matrix.column);
+        for (let r = 0; r < matrix.row; r++) {
+            for(let c = 0; c < matrix.column; c++) {
+                let val = matrix.data[r][c];
+                result.data[r][c] = func(val);
+            }
+        }
+        return result;
     }
 
     map(func) {
